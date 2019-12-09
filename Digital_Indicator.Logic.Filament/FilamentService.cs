@@ -225,13 +225,6 @@ namespace Digital_Indicator.Logic.Filament
             //ActualDiameter = sender.ToString();
 
             double newDiameter = (double)Convert.ChangeType(sender, typeof(double));
-            double oldDiameter = (double)Convert.ChangeType(FilamentServiceVariables["ActualDiameter"], typeof(double));
-            if (Math.Abs(newDiameter - oldDiameter) > 1)
-            {
-                FilamentServiceVariables["ActualDiameter"] = sender.ToString();
-                return;
-            }
-                
 
             FilamentServiceVariables["ActualDiameter"] = sender.ToString();
 

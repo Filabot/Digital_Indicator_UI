@@ -223,6 +223,7 @@ namespace Digital_Indicator.Logic.SerialCommunications
                     string[] stringArray = serialString.ToString().Replace("\r", "").Split(';');
 
                     if (stringArray.Length >= 1)
+                    if (stringArray.Length >= 1)
                     {
                         return stringArray[1];
                     }

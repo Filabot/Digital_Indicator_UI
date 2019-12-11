@@ -88,6 +88,11 @@ namespace Digital_Indicator.Module.Display.ViewModels
             get { return _filamentService.FilamentServiceVariables["SpoolWeight"]; }
         }
 
+        public string Feedrate
+        {
+            get { return _filamentService.FilamentServiceVariables["Feedrate"]; }
+        }
+
         public string Duration
         {
             get

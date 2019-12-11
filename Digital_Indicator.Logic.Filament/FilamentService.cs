@@ -176,6 +176,7 @@ namespace Digital_Indicator.Logic.Filament
             FilamentServiceVariables.Add("SpoolWeight", "");
             FilamentServiceVariables.Add("PullerRPM", "");
             FilamentServiceVariables.Add("FilamentLength", "");
+            FilamentServiceVariables.Add("Feedrate", "");
 
             BuildXmlData();
             SetupPlots();

@@ -428,41 +428,43 @@
                 </LinearGradientBrush>
             </Border.BorderBrush>
             <StackPanel x:Name="stackPanel" >
-                <Grid MaxWidth="270" HorizontalAlignment="Left">
+                <Grid MaxWidth="{Binding ActualWidth, ElementName=stackPanel}" HorizontalAlignment="Left" >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="70"/>
                         <ColumnDefinition Width="40"/>
-                        <ColumnDefinition Width="170"/>
+                        <ColumnDefinition Width="300"/>
                     </Grid.ColumnDefinitions>
                     <Label Content="Wheel"  FontSize="20" HorizontalAlignment="Left" Padding="5,0" />
                     <Label Content="(rpm)"  FontSize="10" HorizontalAlignment="Left" Padding="0,10,5,0" Grid.Column="1" Margin="-7,0,0,0"/>
-                    <TextBlock Text="{Binding PullerRPM}" Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" FontSize="20" HorizontalAlignment="Left" Padding="111,0,0,0"  />
+                    <TextBlock Text="{Binding PullerRPM}" Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" FontSize="20" HorizontalAlignment="Left" Padding="109,0,0,0"  />
+
                 </Grid>
-                <Grid MaxWidth="270" HorizontalAlignment="Left">
+                <Grid MaxWidth="{Binding ActualWidth, ElementName=stackPanel}" HorizontalAlignment="Left">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="92"/>
                         <ColumnDefinition Width="40"/>
-                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="215.941"/>
+                        <ColumnDefinition Width="84.059"/>
                     </Grid.ColumnDefinitions>
                     <Label Content="Feedrate"  FontSize="20" HorizontalAlignment="Left" Padding="5,0" />
                     <Label Content="(mm/s)"  FontSize="10" HorizontalAlignment="Left" Padding="0,10,5,0" Grid.Column="1" Margin="-7,0,0,0"/>
-                    <TextBlock Text="{Binding Feedrate}" Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" FontSize="20" HorizontalAlignment="Left" Padding="40,0,0,0"  />
+                    <TextBlock Text="{Binding Feedrate}" Grid.Row="0" Grid.Column="2" FontSize="20" HorizontalAlignment="Left" Padding="88,0,0,0"  />
                 </Grid>
-                <Grid MaxWidth="270" HorizontalAlignment="Left">
+                <Grid MaxWidth="{Binding ActualWidth, ElementName=stackPanel}" HorizontalAlignment="Left">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="140"/>
                         <ColumnDefinition Width="40"/>
-                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="300"/>
                     </Grid.ColumnDefinitions>
                     <Label Content="Spool Number"  FontSize="20" HorizontalAlignment="Left" Padding="5,0" />
                     <Label Content=""  FontSize="10" HorizontalAlignment="Left" Padding="0,10,5,0" Grid.Column="1" Margin="-7,0,0,0"/>
                     <TextBlock Text="{Binding SpoolNumber}" Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" FontSize="20" HorizontalAlignment="Left" Padding="40,0,0,0"  />
                 </Grid>
-                <Grid MaxWidth="270" HorizontalAlignment="Left">
+                <Grid MaxWidth="{Binding ActualWidth, ElementName=stackPanel}" HorizontalAlignment="Left">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="65"/>
                         <ColumnDefinition Width="40"/>
-                        <ColumnDefinition Width="170"/>
+                        <ColumnDefinition Width="300"/>
                     </Grid.ColumnDefinitions>
                     <Label Content="Spool"  FontSize="20" HorizontalAlignment="Left" Padding="5,0" />
                     <Label Content="(rpm)"  FontSize="10" HorizontalAlignment="Left" Padding="0,10,5,0" Grid.Column="1" Margin="-7,0,0,0"/>
@@ -489,11 +491,11 @@
                 </LinearGradientBrush>
             </Border.BorderBrush>
             <StackPanel x:Name="stackPanel1" >
-                <Grid MaxWidth="270" HorizontalAlignment="Left">
+                <Grid x:Name="grid" MaxWidth="{Binding ActualWidth, ElementName=grid}" HorizontalAlignment="Left">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="96"/>
                         <ColumnDefinition Width="40"/>
-                        <ColumnDefinition Width="135"/>
+                        <ColumnDefinition Width="300"/>
                     </Grid.ColumnDefinitions>
                     <Label Content="Diameter"  FontSize="20" HorizontalAlignment="Left" Padding="5,0" />
                     <Label Content="(mm)"  FontSize="10" HorizontalAlignment="Left" Padding="0,10,5,0" Grid.Column="1" Margin="-7,0,0,0"/>
@@ -503,11 +505,11 @@
                     </i:Interaction.Behaviors>-->
                     </TextBlock>
                 </Grid>
-                <Grid MaxWidth="270" HorizontalAlignment="Left">
+                <Grid MaxWidth="{Binding ActualWidth, ElementName=grid}" HorizontalAlignment="Left">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="137"/>
                         <ColumnDefinition Width="40"/>
-                        <ColumnDefinition Width="135"/>
+                        <ColumnDefinition Width="300"/>
                     </Grid.ColumnDefinitions>
                     <Label Content="Highest Value" FontSize="20" HorizontalAlignment="Left" Padding="5,0"/>
                     <Label Content="(mm)"  FontSize="10" HorizontalAlignment="Left" Padding="0,10,5,0" Grid.Column="1" Margin="-7,0,0,0"/>
@@ -517,11 +519,11 @@
                     </i:Interaction.Behaviors>
                     </TextBlock>
                 </Grid>
-                <Grid MaxWidth="270" HorizontalAlignment="Left">
+                <Grid MaxWidth="{Binding ActualWidth, ElementName=grid}" HorizontalAlignment="Left">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="130"/>
                         <ColumnDefinition Width="40"/>
-                        <ColumnDefinition Width="135"/>
+                        <ColumnDefinition Width="300"/>
                     </Grid.ColumnDefinitions>
                     <Label Content="Lowest Value" FontSize="20" HorizontalAlignment="Left" Padding="5,0"/>
                     <Label Content="(mm)"  FontSize="10" HorizontalAlignment="Left" Padding="0,10,5,0" Grid.Column="1" Margin="-7,0,0,0"/>
@@ -531,11 +533,11 @@
                     </i:Interaction.Behaviors>
                     </TextBlock>
                 </Grid>
-                <Grid MaxWidth="270" HorizontalAlignment="Left">
+                <Grid MaxWidth="{Binding ActualWidth, ElementName=grid}" HorizontalAlignment="Left">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="98"/>
                         <ColumnDefinition Width="40"/>
-                        <ColumnDefinition Width="135"/>
+                        <ColumnDefinition Width="300"/>
                     </Grid.ColumnDefinitions>
                     <Label Content="Tolerance" FontSize="20" HorizontalAlignment="Left" Padding="5,0"/>
                     <Label Content="(mm)"  FontSize="10" HorizontalAlignment="Left" Padding="0,10,5,0" Grid.Column="1" Margin="-7,0,0,0"/>
@@ -568,41 +570,41 @@
                 </LinearGradientBrush>
             </Border.BorderBrush>
             <StackPanel x:Name="stackPanel2" >
-                <Grid MaxWidth="270" HorizontalAlignment="Left">
+                <Grid MaxWidth="{Binding ActualWidth, ElementName=stackPanel2}" HorizontalAlignment="Left">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="92"/>
                         <ColumnDefinition Width="40"/>
-                        <ColumnDefinition Width="144"/>
+                        <ColumnDefinition Width="300"/>
                     </Grid.ColumnDefinitions>
                     <Label Content="Duration"  FontSize="20" HorizontalAlignment="Left" Padding="5,0" />
                     <Label Content="(h:mm:ss)"  FontSize="10" HorizontalAlignment="Left" Padding="0,10,5,0" Grid.Column="1" Margin="-7,0,0,0"/>
                     <TextBlock Text="{Binding Duration}" Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" FontSize="20" HorizontalAlignment="Left" Padding="65,0,0,0"  />
                 </Grid>
-                <Grid MaxWidth="270" HorizontalAlignment="Left">
+                <Grid MaxWidth="{Binding ActualWidth, ElementName=stackPanel2}" HorizontalAlignment="Left">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="108"/>
                         <ColumnDefinition Width="40"/>
-                        <ColumnDefinition Width="124"/>
+                        <ColumnDefinition Width="300"/>
                     </Grid.ColumnDefinitions>
                     <Label Content="Remaining"  FontSize="20" HorizontalAlignment="Left" Padding="5,0" />
                     <Label Content="(h:mm:ss)"  FontSize="10" HorizontalAlignment="Left" Padding="0,10,5,0" Grid.Column="1" Margin="-7,0,0,0"/>
                     <TextBlock Text="{Binding RemainingTime}" Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" FontSize="20" HorizontalAlignment="Left" Padding="30,0,0,0"  />
                 </Grid>
-                <Grid MaxWidth="270" HorizontalAlignment="Left">
+                <Grid MaxWidth="{Binding ActualWidth, ElementName=stackPanel2}" HorizontalAlignment="Left">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="80"/>
                         <ColumnDefinition Width="40"/>
-                        <ColumnDefinition Width="130"/>
+                        <ColumnDefinition Width="300"/>
                     </Grid.ColumnDefinitions>
                     <Label Content="Weight"  FontSize="20" HorizontalAlignment="Left" Padding="5,0" />
                     <Label Content="(g)"  FontSize="10" HorizontalAlignment="Left" Padding="0,10,5,0" Grid.Column="1" Margin="-7,0,0,0"/>
                     <TextBlock Text="{Binding SpoolWeight}" Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" FontSize="20" HorizontalAlignment="Left" Padding="75,0,0,0"  />
                 </Grid>
-                <Grid MaxWidth="270" HorizontalAlignment="Left">
+                <Grid MaxWidth="{Binding ActualWidth, ElementName=stackPanel2}" HorizontalAlignment="Left">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="75"/>
                         <ColumnDefinition Width="40"/>
-                        <ColumnDefinition Width="146"/>
+                        <ColumnDefinition Width="300"/>
                     </Grid.ColumnDefinitions>
                     <Label Content="Length"  FontSize="20" HorizontalAlignment="Left" Padding="5,0" />
                     <Label Content="(m)"  FontSize="10" HorizontalAlignment="Left" Padding="0,10,5,0" Grid.Column="1" Margin="-7,0,0,0"/>

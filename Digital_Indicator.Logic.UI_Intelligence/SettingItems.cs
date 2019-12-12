@@ -26,7 +26,7 @@ namespace Digital_Indicator.Logic.UI_Intelligence
         private DoubleInputViewModel TraverseSpeed;
         private EnumItemsViewModel TraverseRunMode;
         private DataInputViewModel SpecificGravity;
-        private DataInputViewModel SpoolWeight;
+        private DataInputViewModel SpoolWeightLimit;
         private EnumItemsViewModel TraverseStartPosition;
 
 
@@ -48,7 +48,7 @@ namespace Digital_Indicator.Logic.UI_Intelligence
             TraverseSpeed = new DoubleInputViewModel();
             TraverseRunMode = new EnumItemsViewModel();
             SpecificGravity = new DataInputViewModel();
-            SpoolWeight = new DataInputViewModel();
+            SpoolWeightLimit = new DataInputViewModel();
             TraverseStartPosition = new EnumItemsViewModel();
 
             Description.ParameterName = "Description";
@@ -96,16 +96,14 @@ namespace Digital_Indicator.Logic.UI_Intelligence
             //SpecificGravity.IsXmLParameter = true;
             SpecificGravity.Unit = "g/cc";
             //SpecificGravity.XmlParameterName = "SpecificGravity";
-            
-            SpoolWeight.HardwareType = "3";
-            SpoolWeight.ParameterName = "Spool Weight";
-            SpoolWeight.IsSerialCommand = true;
-            SpoolWeight.SerialCommand = "";
-            SpoolWeight.Value = 0;
-            SpoolWeight.ParameterType = "Production";
-            SpoolWeight.IsXmLParameter = true;
-            SpoolWeight.XmlParameterName = "SpoolWeight";
-            SpoolWeight.Unit = "g";
+
+            SpoolWeightLimit.HardwareType = "3";
+            SpoolWeightLimit.ParameterName = "Spool Weight Limit";
+            SpoolWeightLimit.Value = 0;
+            SpoolWeightLimit.ParameterType = "Production";
+            SpoolWeightLimit.IsXmLParameter = true;
+            SpoolWeightLimit.XmlParameterName = "SpoolWeightLimit";
+            SpoolWeightLimit.Unit = "g";
 
             TraverseInnerOffset.HardwareType = "3";
             TraverseInnerOffset.ParameterName = "Traverse Inner Offset";
@@ -199,7 +197,7 @@ namespace Digital_Indicator.Logic.UI_Intelligence
             settings.Add(TraverseSpeed);
             settings.Add(TraverseRunMode);
             settings.Add(SpecificGravity);
-            settings.Add(SpoolWeight);
+            settings.Add(SpoolWeightLimit);
             settings.Add(TraverseStartPosition);
             
 

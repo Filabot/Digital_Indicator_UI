@@ -77,6 +77,9 @@ namespace Digital_Indicator.Logic.UI_Intelligence
                     if (item.SerialCommand == command.Command && item.IsSerialCommand)
                     {
                         item.PropertyChanged -= ItemChange_Handler;
+
+                        if (item.Value == null) { item.Value = ""; }
+
                         if (item.Value.ToString() != command.Value)
                         {
                             if (item.GetType() == typeof(EnumItemsViewModel))

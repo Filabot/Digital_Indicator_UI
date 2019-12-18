@@ -103,6 +103,41 @@ namespace Digital_Indicator.Module.Display.ViewModels
             }
         }
 
+        public Brush HighestValueColor
+        {
+            get
+            {
+                double UpperLimit = _filamentService.FilamentServiceVariables["UpperLimit"].ToDouble();
+                double HighestValue = _filamentService.FilamentServiceVariables["HighestValue"].ToDouble();
+
+                Color color = Colors.Black;
+
+                if (HighestValue > UpperLimit)
+                color = Colors.Red;
+
+                SolidColorBrush brush = new SolidColorBrush(color);
+                return brush;
+            }
+        }
+
+        public Brush LowestValueColor
+        {
+            get
+            {
+                double LowerLimit = _filamentService.FilamentServiceVariables["LowerLimit"].ToDouble();
+                double LowestValue = _filamentService.FilamentServiceVariables["LowestValue"].ToDouble();
+
+                Color color = Colors.Black;
+
+                if (LowestValue < LowerLimit)
+                    color = Colors.Red;
+
+
+                SolidColorBrush brush = new SolidColorBrush(color);
+                return brush;
+            }
+        }
+
         private object settingsView;
         public object SettingsView
         {
@@ -143,6 +178,9 @@ namespace Digital_Indicator.Module.Display.ViewModels
         private void _filamentService_PropertyChanged(object sender, EventArgs e)
         {
             RaisePropertyChanged(((PropertyChangedEventArgs)e).PropertyName);
+
+            RaisePropertyChanged("HighestValueColor");
+            RaisePropertyChanged("LowestValueColor");
         }
 
         private void ResetGraph_Click()
@@ -242,6 +280,22 @@ namespace Digital_Indicator.Module.Display.ViewModels
                 gradientStopCollection.Add(new GradientStop { Color = (Color)ColorConverter.ConvertFromString("#FF730000"), Offset = 1 });
             }
             return gradientStopCollection;
+        }
+    }
+    public static class ExtensionMethods
+    {
+        public static int ToInt(this string value)
+        {
+            int _out = 0;
+            Int32.TryParse(value, out _out);
+            return _out;
+        }
+
+        public static double ToDouble(this string value)
+        {
+            double _out = 0.0;
+            double.TryParse(value, out _out);
+            return _out;
         }
     }
 }

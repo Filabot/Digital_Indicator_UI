@@ -28,6 +28,8 @@ namespace Digital_Indicator.Logic.UI_Intelligence
         private DataInputViewModel SpecificGravity;
         private DataInputViewModel SpoolWeightLimit;
         private EnumItemsViewModel TraverseStartPosition;
+        private LargeDataInputViewModel MotherboardRestartReason;
+        private LargeDataInputViewModel PullerRestartReason;
 
 
 
@@ -50,6 +52,8 @@ namespace Digital_Indicator.Logic.UI_Intelligence
             SpecificGravity = new DataInputViewModel();
             SpoolWeightLimit = new DataInputViewModel();
             TraverseStartPosition = new EnumItemsViewModel();
+            MotherboardRestartReason = new LargeDataInputViewModel();
+            PullerRestartReason = new LargeDataInputViewModel();
 
             Description.ParameterName = "Description";
             Description.IsXmLParameter = true;
@@ -173,17 +177,15 @@ namespace Digital_Indicator.Logic.UI_Intelligence
             TraverseStartPosition.EnumList.Add(middle);
             TraverseStartPosition.EnumList.Add(front);
 
+            MotherboardRestartReason.ParameterName = "Motherboard Restart Reason";
+            MotherboardRestartReason.ParameterType = "Debug";
+            MotherboardRestartReason.IsSerialCommand = true;
+            MotherboardRestartReason.SerialCommand = "MotherboardRestartReason";
 
-
-            //Settings.Add(Description.ParameterType, Description);
-            //Settings.Add(FilamentDiameter.ParameterType, FilamentDiameter);
-            //Settings.Add(UpperLimit.ParameterType, UpperLimit);
-            //Settings.Add(LowerLimit.ParameterType, LowerLimit);
-            //Settings.Add(SpoolNumber.ParameterType, SpoolNumber);
-            //Settings.Add(TraverseInnerOffset.ParameterType, TraverseInnerOffset);
-            //Settings.Add(TraverseSpoolWidth.ParameterType, TraverseSpoolWidth);
-            //Settings.Add(SpoolerRpm.ParameterType, SpoolerRpm);
-            //Settings.Add(TraverseRunMode.ParameterType, TraverseRunMode);
+            PullerRestartReason.ParameterName = "Puller Restart Reason";
+            PullerRestartReason.ParameterType = "Debug";
+            PullerRestartReason.IsSerialCommand = true;
+            PullerRestartReason.SerialCommand = "PullerRestartReason";
 
 
             settings.Add(Description);
@@ -199,7 +201,9 @@ namespace Digital_Indicator.Logic.UI_Intelligence
             settings.Add(SpecificGravity);
             settings.Add(SpoolWeightLimit);
             settings.Add(TraverseStartPosition);
-            
+            settings.Add(MotherboardRestartReason);
+            settings.Add(PullerRestartReason);
+
 
             foreach (ViewModelBase item in settings)
             {

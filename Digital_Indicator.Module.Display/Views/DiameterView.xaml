@@ -523,7 +523,7 @@
                     </Grid.ColumnDefinitions>
                     <Label Content="Highest Value" FontSize="20" HorizontalAlignment="Left" Padding="5,0"/>
                     <Label Content="(mm)"  FontSize="10" HorizontalAlignment="Left" Padding="0,10,5,0" Grid.Column="1" Margin="-7,0,0,0"/>
-                    <TextBlock Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" FontSize="20" HorizontalAlignment="Left" Padding="38,0,0,0"  >
+                    <TextBlock Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" FontSize="20" HorizontalAlignment="Left" Padding="38,0,0,0" Foreground="{Binding HighestValueColor}" >
                     <i:Interaction.Behaviors>
                         <local:HighSpeedTextBlockBehavior FilamentService="{Binding _filamentService}" VariableName="HighestValue" Unit=""/>
                     </i:Interaction.Behaviors>
@@ -537,7 +537,7 @@
                     </Grid.ColumnDefinitions>
                     <Label Content="Lowest Value" FontSize="20" HorizontalAlignment="Left" Padding="5,0"/>
                     <Label Content="(mm)"  FontSize="10" HorizontalAlignment="Left" Padding="0,10,5,0" Grid.Column="1" Margin="-7,0,0,0"/>
-                    <TextBlock Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" FontSize="20" HorizontalAlignment="Left" Padding="45,0,0,0"  >
+                    <TextBlock Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" FontSize="20" HorizontalAlignment="Left" Padding="45,0,0,0" Foreground="{Binding LowestValueColor}" >
                     <i:Interaction.Behaviors>
                         <local:HighSpeedTextBlockBehavior FilamentService="{Binding _filamentService}" VariableName="LowestValue" Unit=""/>
                     </i:Interaction.Behaviors>
@@ -546,12 +546,12 @@
                 <Grid MaxWidth="{Binding ActualWidth, ElementName=grid}" HorizontalAlignment="Left">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="98"/>
-                        <ColumnDefinition Width="40"/>
+                        <ColumnDefinition Width="50"/>
                         <ColumnDefinition Width="300"/>
                     </Grid.ColumnDefinitions>
                     <Label Content="Tolerance" FontSize="20" HorizontalAlignment="Left" Padding="5,0"/>
-                    <Label Content="(mm)"  FontSize="10" HorizontalAlignment="Left" Padding="0,10,5,0" Grid.Column="1" Margin="-7,0,0,0"/>
-                    <TextBlock Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" FontSize="20" HorizontalAlignment="Left" Padding="77,0,0,0" >
+                    <Label Content="(mm)(+/-)"  FontSize="10" HorizontalAlignment="Left" Padding="0,10,5,0" Grid.Column="1" Margin="-7,0,0,0"/>
+                    <TextBlock Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" FontSize="20" HorizontalAlignment="Left" Padding="67,0,0,0" >
                     <i:Interaction.Behaviors>
                         <local:HighSpeedTextBlockBehavior FilamentService="{Binding _filamentService}" VariableName="Tolerance" Unit=""/>
                     </i:Interaction.Behaviors>

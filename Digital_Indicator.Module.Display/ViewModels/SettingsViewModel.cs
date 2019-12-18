@@ -38,20 +38,11 @@ namespace Digital_Indicator.Module.Display.ViewModels
             get { return (ObservableCollection<ViewModelBase>)_iui_IntelligenceService.GetSettings()["Production"]; }
         }
 
-        //public ObservableCollection<ViewModelBase> Traverse
-        //{
-        //    get { return (ObservableCollection<ViewModelBase>)_iui_IntelligenceService.GetSettings()["Traverse"]; }
-        //}
+        public ObservableCollection<ViewModelBase> Debug
+        {
+            get { return (ObservableCollection<ViewModelBase>)_iui_IntelligenceService.GetSettings()["Debug"]; }
+        }
 
-        //public ObservableCollection<ViewModelBase> Pulling
-        //{
-        //    get { return (ObservableCollection<ViewModelBase>)_iui_IntelligenceService.GetSettings()["Pulling"]; }
-        //}
-
-        //public ObservableCollection<ViewModelBase> Info
-        //{
-        //    get { return (ObservableCollection<ViewModelBase>)_iui_IntelligenceService.GetSettings()["Info"]; }
-        //}
 
         public DelegateCommand CloseSettingsView
         {

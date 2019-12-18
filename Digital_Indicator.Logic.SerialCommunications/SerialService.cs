@@ -131,8 +131,6 @@ namespace Digital_Indicator.Logic.SerialCommunications
                                     }
                                 }
                             }
-                            
-
                         }
                         catch (Exception oe)
                         {

@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms.Integration;
+using System.Windows.Media;
 using System.Windows.Media.Animation;
 using ZedGraph;
 
@@ -161,7 +162,21 @@ namespace Digital_Indicator.Module.Display.Views
                 updateInProgress = true;
                 Dispatcher.Invoke(new Action(() =>
                 {
+                    double actDiameter = (double)Convert.ChangeType(_filamentService.FilamentServiceVariables["ActualDiameter"], typeof(double));
+                    double UpperLimit = (double)Convert.ChangeType(_filamentService.FilamentServiceVariables["UpperLimit"], typeof(double));
+                    double LowerLimit = (double)Convert.ChangeType(_filamentService.FilamentServiceVariables["LowerLimit"], typeof(double));
+
+                    double HighestValue = (double)Convert.ChangeType(_filamentService.FilamentServiceVariables["HighestValue"], typeof(double));
+                    double LowestValue = (double)Convert.ChangeType(_filamentService.FilamentServiceVariables["LowestValue"], typeof(double));
+
+                    if (actDiameter >= UpperLimit || actDiameter <= LowerLimit)
+                        textBlockDiameter.Foreground = Brushes.Red;
+                    else
+                        textBlockDiameter.Foreground = Brushes.Black;
+
+                    
                     textBlockDiameter.Text = _filamentService.FilamentServiceVariables["ActualDiameter"];
+                    
                     this.InvalidateVisual();
 
                 }));

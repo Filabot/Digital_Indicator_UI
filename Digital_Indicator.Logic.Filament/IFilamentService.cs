@@ -31,7 +31,8 @@ namespace Digital_Indicator.Logic.Filament
         void SaveHistoricalData(HashSet<DataListXY> dataPoints);
         void SaveXmlData();
 
-        Stopwatch stopWatch { get;}
-        
+        Stopwatch DurationClock { get;}
+
+        string RemainingTime { get; }
     }
 }

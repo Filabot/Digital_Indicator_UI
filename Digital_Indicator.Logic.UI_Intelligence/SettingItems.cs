@@ -101,13 +101,15 @@ namespace Digital_Indicator.Logic.UI_Intelligence
             SpecificGravity.Unit = "g/cc";
             //SpecificGravity.XmlParameterName = "SpecificGravity";
 
-            SpoolWeightLimit.HardwareType = "3";
+            SpoolWeightLimit.HardwareType = "100";
             SpoolWeightLimit.ParameterName = "Spool Weight Limit";
             SpoolWeightLimit.Value = 0;
             SpoolWeightLimit.ParameterType = "Production";
             SpoolWeightLimit.IsXmLParameter = true;
             SpoolWeightLimit.XmlParameterName = "SpoolWeightLimit";
             SpoolWeightLimit.Unit = "g";
+            SpoolWeightLimit.IsSerialCommand = true;
+            SpoolWeightLimit.SerialCommand = "SpoolWeightLimit";
 
             TraverseInnerOffset.HardwareType = "3";
             TraverseInnerOffset.ParameterName = "Traverse Inner Offset";

@@ -26,89 +26,13 @@ namespace Digital_Indicator.Logic.Filament
 
         public Dictionary<string, string> FilamentServiceVariables { get; private set; }
 
-        public Stopwatch stopWatch { get; private set; }
+        public Stopwatch DurationClock { get; private set; }
+
+        public String RemainingTime { get; private set; }
 
         private IXmlService _xmlService;
         private ICsvService _csvService;
         private ISerialService _serialService;
-
-        //private string description;
-        //public string Description
-        //{
-        //    get { return description; }
-        //    set { description = value; }
-        //}
-
-
-        //private string nominalDiameter;
-        //public string NominalDiameter
-        //{
-        //    get { return nominalDiameter; }
-        //    set
-        //    {
-        //        nominalDiameter = value;
-
-        //        OnPropertyChanged();
-        //        UpdatePlots();
-        //        SaveXmlData();
-        //        SetFilamentVariables();
-        //    }
-        //}
-
-        //private string upperLimit;
-        //public string UpperLimit
-        //{
-        //    get { return upperLimit; }
-        //    set
-        //    {
-        //        upperLimit = value;
-        //        OnPropertyChanged();
-        //        UpdatePlots();
-        //        SaveXmlData();
-        //        SetFilamentVariables();
-        //    }
-        //}
-
-        //private string lowerLimit;
-        //public string LowerLimit
-        //{
-        //    get { return lowerLimit; }
-        //    set
-        //    {
-        //        lowerLimit = value;
-
-        //        OnPropertyChanged();
-        //        UpdatePlots();
-        //        SaveXmlData();
-        //        SetFilamentVariables();
-        //    }
-        //}
-
-        //private string spoolNumber;
-        //public string SpoolNumber
-        //{
-        //    get { return spoolNumber; }
-        //    set
-        //    {
-        //        spoolNumber = value;
-        //        OnPropertyChanged();
-        //        UpdatePlots();
-        //        SaveXmlData();
-        //    }
-        //}
-
-        //private string spoolRPM;
-        //public string SpoolRPM
-        //{
-        //    get { return spoolRPM; }
-        //    set
-        //    {
-        //        spoolRPM = value;
-        //        OnPropertyChanged();
-        //        //UpdatePlots();
-        //        //SaveXmlData();
-        //    }
-        //}
 
         private bool captureStarted;
         public bool CaptureStarted
@@ -117,7 +41,7 @@ namespace Digital_Indicator.Logic.Filament
             set
             {
                 captureStarted = value;
-                
+
                 if (captureStarted)
                 {
                     FilamentServiceVariables["HighestValue"] = FilamentServiceVariables["ActualDiameter"];
@@ -126,7 +50,7 @@ namespace Digital_Indicator.Logic.Filament
                     //FilamentServiceVariables["HighestValue"] = nominalDiameter;
                     //FilamentServiceVariables["LowestValue"] = nominalDiameter;
 
-                    
+
                     FilamentServiceVariables["SpoolNumber"] = (FilamentServiceVariables["SpoolNumber"].GetInteger() + 1).ToString();
                     SetupPlots();
                     SetupStopwatch();
@@ -135,7 +59,7 @@ namespace Digital_Indicator.Logic.Filament
                 else
                 {
                     SaveHistoricalData(ZedGraphPlotModel.GetPlot("HistoricalModel").GetDataPoints());
-                    stopWatch.Stop();
+                    DurationClock.Stop();
                 }
                 SerialCommand command = new SerialCommand() { Command = "FilamentCapture", DeviceID = "100", Value = captureStarted ? "1" : "0" };
                 _serialService.SendSerialData(command);
@@ -150,7 +74,7 @@ namespace Digital_Indicator.Logic.Filament
 
         public FilamentService(ISerialService serialService, IXmlService xmlService, ICsvService csvService)
         {
-            stopWatch = new Stopwatch();
+            DurationClock = new Stopwatch();
 
             _serialService = serialService;
             _serialService.DiameterChanged += SerialService_DiameterChanged;
@@ -178,6 +102,8 @@ namespace Digital_Indicator.Logic.Filament
             FilamentServiceVariables.Add("FilamentLength", "");
             FilamentServiceVariables.Add("Feedrate", "");
             FilamentServiceVariables.Add("SpoolWeight", "");
+            FilamentServiceVariables.Add("OutputRate", "");
+            FilamentServiceVariables.Add("RemainingTime", "");
 
             BuildXmlData();
             SetupPlots();
@@ -272,12 +198,12 @@ namespace Digital_Indicator.Logic.Filament
             //FilamentServiceVariables["SpoolNumber"] = _xmlService.XmlSettings["filamentData.spoolNumber"];
             //FilamentServiceVariables["Description"] = _xmlService.XmlSettings["filamentData.materialDescription"];
 
-            
+
 
 
             foreach (KeyValuePair<string, string> kvp in FilamentServiceVariables.ToList())
             {
-                
+
 
                 if (!_xmlService.XmlSettings.ContainsKey("filamentData." + kvp.Key))
                 {
@@ -338,20 +264,44 @@ namespace Digital_Indicator.Logic.Filament
 
         private void SetupStopwatch()
         {
-            stopWatch.Reset();
-            stopWatch.Start();
+            DurationClock.Reset();
+            DurationClock.Start();
 
 
             Task.Factory.StartNew(() =>
             {
-                while (stopWatch.IsRunning)
+                while (DurationClock.IsRunning)
                 {
-                    StopWatchedTimeChanged?.Invoke(stopWatch, new EventArgs());
+                    StopWatchedTimeChanged?.Invoke(DurationClock, new EventArgs());
 
 
-                    FilamentServiceVariables["Duration"] = stopWatch.Elapsed.Hours.ToString("0") + ":" +
-                                                          stopWatch.Elapsed.Minutes.ToString("0#") + ":" +
-                                                          stopWatch.Elapsed.Seconds.ToString("0#");
+                    FilamentServiceVariables["Duration"] = DurationClock.Elapsed.Hours.ToString("0") + ":" +
+                                                          DurationClock.Elapsed.Minutes.ToString("0#") + ":" +
+                                                          DurationClock.Elapsed.Seconds.ToString("0#");
+
+
+                    double rate = 0.0;
+                    double.TryParse(FilamentServiceVariables["OutputRate"], out rate);
+                    double spoolWeightLimit = 0;
+                    double.TryParse(FilamentServiceVariables["SpoolWeightLimit"], out spoolWeightLimit);
+
+                    rate = rate * 1000;
+                    double perMinuteRate = (60 / rate) * 1000;
+                    double totalMilliseconds = (perMinuteRate * 60) * spoolWeightLimit;
+                    double remainingTime = Math.Abs(DurationClock.ElapsedMilliseconds - totalMilliseconds);
+
+                    if (remainingTime != double.NaN && DurationClock.ElapsedMilliseconds >= 15000)
+                    {
+                        TimeSpan time = TimeSpan.FromMilliseconds(remainingTime);
+
+                        FilamentServiceVariables["RemainingTime"] = time.Hours.ToString("0") + ":" +
+                                                              time.Minutes.ToString("0#") + ":" +
+                                                              time.Seconds.ToString("0#");
+                    }
+                    if (DurationClock.ElapsedMilliseconds < 15000)
+                    {
+                        FilamentServiceVariables["RemainingTime"] = "Stabilizing";
+                    }
 
                     System.Threading.Thread.Sleep(500);
                 }

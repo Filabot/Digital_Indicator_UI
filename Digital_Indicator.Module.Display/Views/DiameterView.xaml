@@ -478,7 +478,7 @@
                     </Grid.ColumnDefinitions>
                     <Label Content="Output Rate"  FontSize="20" HorizontalAlignment="Left" Padding="5,0" />
                     <Label Content="(kg/hr)"  FontSize="10" HorizontalAlignment="Left" Padding="0,10,5,0" Grid.Column="1" Margin="-7,0,0,0"/>
-                    <TextBlock Text="" Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" FontSize="20" HorizontalAlignment="Left" Padding="115,0,0,0"  />
+                    <TextBlock Text="{Binding OutputRate}" Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" FontSize="20" HorizontalAlignment="Left" Padding="55,0,0,0"  />
                 </Grid>
 
             </StackPanel>
@@ -598,7 +598,7 @@
                     </Grid.ColumnDefinitions>
                     <Label Content="Remaining"  FontSize="20" HorizontalAlignment="Left" Padding="5,0" />
                     <Label Content="(h:mm:ss)"  FontSize="10" HorizontalAlignment="Left" Padding="0,10,5,0" Grid.Column="1" Margin="-7,0,0,0"/>
-                    <TextBlock Text="{Binding RemainingTime}" Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" FontSize="20" HorizontalAlignment="Left" Padding="30,0,0,0"  />
+                    <TextBlock Text="{Binding RemainingTime}" Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" FontSize="20" HorizontalAlignment="Left" Padding="50,0,0,0"  />
                 </Grid>
                 <Grid MaxWidth="{Binding ActualWidth, ElementName=stackPanel2}" HorizontalAlignment="Left">
                     <Grid.ColumnDefinitions>

@@ -328,7 +328,11 @@ namespace Digital_Indicator.Logic.SerialCommunications
         {
             if (splitData.Length >= 3)
             {
-                int ticks = (int)Convert.ChangeType(splitData[2], typeof(int));
+                try
+                {
+                    int ticks = (int)Convert.ChangeType(splitData[2], typeof(int));
+                }
+                catch { }
             }
 
             processSerialCommand(splitData);

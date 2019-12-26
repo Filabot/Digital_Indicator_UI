@@ -93,14 +93,19 @@ namespace Digital_Indicator.Module.Display.ViewModels
             get { return _filamentService.FilamentServiceVariables["Feedrate"]; }
         }
 
+        public string OutputRate
+        {
+            get { return _filamentService.FilamentServiceVariables["OutputRate"]; }
+        }
+
         public string Duration
         {
-            get
-            {
-                return (_filamentService.stopWatch.Elapsed.Hours.ToString("0") + ":" +
-                  _filamentService.stopWatch.Elapsed.Minutes.ToString("0#") + ":" +
-                  _filamentService.stopWatch.Elapsed.Seconds.ToString("0#"));
-            }
+            get { return _filamentService.FilamentServiceVariables["Duration"]; }
+        }
+
+        public string RemainingTime
+        {
+            get { return _filamentService.FilamentServiceVariables["RemainingTime"]; }
         }
 
         public Brush HighestValueColor
@@ -165,6 +170,7 @@ namespace Digital_Indicator.Module.Display.ViewModels
         private void _filamentService_StopWatchedTimeChanged(object sender, EventArgs e)
         {
             RaisePropertyChanged("Duration");
+            RaisePropertyChanged("RemainingTime");
         }
 
         private void _navigationService_RegionCleared(object sender, EventArgs e)

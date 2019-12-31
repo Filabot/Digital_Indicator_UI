@@ -162,12 +162,20 @@ namespace Digital_Indicator.Module.Display.Views
                 updateInProgress = true;
                 Dispatcher.Invoke(new Action(() =>
                 {
-                    double actDiameter = (double)Convert.ChangeType(_filamentService.FilamentServiceVariables["ActualDiameter"], typeof(double));
-                    double UpperLimit = (double)Convert.ChangeType(_filamentService.FilamentServiceVariables["UpperLimit"], typeof(double));
-                    double LowerLimit = (double)Convert.ChangeType(_filamentService.FilamentServiceVariables["LowerLimit"], typeof(double));
+                    double actDiameter = 0;
+                    double.TryParse(_filamentService.FilamentServiceVariables["ActualDiameter"], out actDiameter);
 
-                    double HighestValue = (double)Convert.ChangeType(_filamentService.FilamentServiceVariables["HighestValue"], typeof(double));
-                    double LowestValue = (double)Convert.ChangeType(_filamentService.FilamentServiceVariables["LowestValue"], typeof(double));
+                    double UpperLimit = 0;
+                    double.TryParse(_filamentService.FilamentServiceVariables["UpperLimit"], out UpperLimit);
+
+                    double LowerLimit = 0;
+                    double.TryParse(_filamentService.FilamentServiceVariables["LowerLimit"], out LowerLimit);
+
+                    double HighestValue = 0;
+                    double.TryParse(_filamentService.FilamentServiceVariables["HighestValue"], out HighestValue);
+
+                    double LowestValue = 0;
+                    double.TryParse(_filamentService.FilamentServiceVariables["LowestValue"], out LowestValue);
 
                     if (actDiameter >= UpperLimit || actDiameter <= LowerLimit)
                         textBlockDiameter.Foreground = Brushes.Red;

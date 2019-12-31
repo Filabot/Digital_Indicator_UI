@@ -34,6 +34,8 @@ namespace Digital_Indicator.Logic.Filament
         private ICsvService _csvService;
         private ISerialService _serialService;
 
+        private double previousWeight;
+
         private bool captureStarted;
         public bool CaptureStarted
         {
@@ -272,36 +274,50 @@ namespace Digital_Indicator.Logic.Filament
             {
                 while (DurationClock.IsRunning)
                 {
-                    StopWatchedTimeChanged?.Invoke(DurationClock, new EventArgs());
+
 
 
                     FilamentServiceVariables["Duration"] = DurationClock.Elapsed.Hours.ToString("0") + ":" +
                                                           DurationClock.Elapsed.Minutes.ToString("0#") + ":" +
                                                           DurationClock.Elapsed.Seconds.ToString("0#");
 
-
-                    double rate = 0.0;
-                    double.TryParse(FilamentServiceVariables["OutputRate"], out rate);
+                    double actSpoolWeight = 0.0;
+                    double.TryParse(FilamentServiceVariables["SpoolWeight"], out actSpoolWeight);
                     double spoolWeightLimit = 0;
                     double.TryParse(FilamentServiceVariables["SpoolWeightLimit"], out spoolWeightLimit);
 
-                    rate = rate * 1000;
-                    double perMinuteRate = (60 / rate) * 1000;
-                    double totalMilliseconds = (perMinuteRate * 60) * spoolWeightLimit;
-                    double remainingTime = Math.Abs(DurationClock.ElapsedMilliseconds - totalMilliseconds);
 
-                    if (remainingTime != double.NaN && DurationClock.ElapsedMilliseconds >= 15000)
+                    double timePerWeight = (DurationClock.ElapsedMilliseconds / actSpoolWeight) * spoolWeightLimit;
+
+
+                    if (previousWeight != actSpoolWeight)
                     {
-                        TimeSpan time = TimeSpan.FromMilliseconds(remainingTime);
+                        if (actSpoolWeight > 0 && timePerWeight != double.NaN && timePerWeight > 0 && DurationClock.ElapsedMilliseconds >= 15000)
+                        {
+                            TimeSpan remainingTime = TimeSpan.Zero;
+                            remainingTime = TimeSpan.FromMilliseconds(timePerWeight);
+                            remainingTime = TimeSpan.FromMilliseconds(remainingTime.TotalMilliseconds - DurationClock.ElapsedMilliseconds);
 
-                        FilamentServiceVariables["RemainingTime"] = time.Hours.ToString("0") + ":" +
-                                                              time.Minutes.ToString("0#") + ":" +
-                                                              time.Seconds.ToString("0#");
+                            if (remainingTime.TotalMilliseconds > 0)
+                            {
+                                FilamentServiceVariables["RemainingTime"] = remainingTime.Hours.ToString("0") + ":" +
+                                                                      remainingTime.Minutes.ToString("0#") + ":" +
+                                                                     remainingTime.Seconds.ToString("0#");
+                            }
+                            else
+                            {
+                                FilamentServiceVariables["RemainingTime"] = "0:00:00";
+                            }
+                            previousWeight = actSpoolWeight;
+                        }
                     }
+
                     if (DurationClock.ElapsedMilliseconds < 15000)
                     {
                         FilamentServiceVariables["RemainingTime"] = "Stabilizing";
                     }
+
+                    StopWatchedTimeChanged?.Invoke(DurationClock, new EventArgs());
 
                     System.Threading.Thread.Sleep(500);
                 }

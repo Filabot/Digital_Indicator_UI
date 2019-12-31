@@ -55,7 +55,7 @@ namespace Digital_Indicator.Logic.UI_Intelligence
 
             }
 
-            _serialService.SendSerialData(new SerialCommand() { Command = "GetFullUpdate", DeviceID = "100" });
+            //_serialService.SendSerialData(new SerialCommand() { Command = "GetFullUpdate", DeviceID = "100" });
 
             foreach (ViewModelBase item in Settings)
             {

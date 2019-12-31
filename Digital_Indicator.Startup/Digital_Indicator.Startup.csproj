@@ -163,5 +163,11 @@
   <ItemGroup>
     <Resource Include="indicator_icon_8x8_icon.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="FILABOT_LOGO_2017 splash.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="FILABOT_LOGO_2017 splash1.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

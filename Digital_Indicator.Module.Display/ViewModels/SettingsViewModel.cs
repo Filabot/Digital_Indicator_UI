@@ -56,42 +56,6 @@ namespace Digital_Indicator.Module.Display.ViewModels
             set { SetProperty(ref openSpoolDataFolder, value); }
         }
 
-        //public string FilamentDiameter
-        //{
-        //    get { return _filamentService.FilamentServiceVariables["NominalDiameter"]; }
-        //    set { _filamentService.FilamentServiceVariables["NominalDiameter"] = value; RaisePropertyChanged(); }
-        //}
-
-        //public string UpperLimit
-        //{
-        //    get { return _filamentService.FilamentServiceVariables["UpperLimit"]; }
-        //    set { _filamentService.FilamentServiceVariables["UpperLimit"] = value; RaisePropertyChanged(); }
-        //}
-
-        //public string LowerLimit
-        //{
-        //    get { return _filamentService.FilamentServiceVariables["LowerLimit"]; }
-        //    set { _filamentService.FilamentServiceVariables["LowerLimit"] = value; RaisePropertyChanged(); }
-        //}
-
-        //public string FilamentDescription
-        //{
-        //    get { return _filamentService.FilamentServiceVariables["Description"]; }
-        //    set { _filamentService.FilamentServiceVariables["Description"] = value; RaisePropertyChanged(); }
-        //}
-
-        //public string SpoolNumber
-        //{
-        //    get { return _filamentService.FilamentServiceVariables["SpoolNumber"]; }
-        //    set { _filamentService.FilamentServiceVariables["SpoolNumber"] = value; }
-        //}
-
-        //public string SpoolerRPMSetpoint
-        //{
-        //    get { return _spoolerService.SpoolerRPMSetpoint; }
-        //    set { _spoolerService.SpoolerRPMSetpoint = value; }
-        //}
-
         public string VersionNumber
         {
             get

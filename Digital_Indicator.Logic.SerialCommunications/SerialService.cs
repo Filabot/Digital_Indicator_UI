@@ -47,7 +47,7 @@ namespace Digital_Indicator.Logic.SerialCommunications
 
         public bool PortDataIsSet { get; private set; }
 
-        
+
 
         public void BindHandlers()
         {
@@ -65,7 +65,7 @@ namespace Digital_Indicator.Logic.SerialCommunications
                 PortName = portName;
                 serialPort.Open();
                 RunSimulation();
-                
+
                 return;
             }
             if (!IsSimulationModeActive)
@@ -104,19 +104,25 @@ namespace Digital_Indicator.Logic.SerialCommunications
                             string dataIn = serialPort.ReadLine();
 
                             Console.WriteLine(dataIn);
-                            
-                            
+
                             string[] splitData = dataIn.Replace("\r", "").Replace("\n", "").Replace("\0", "").Split(';');
-                            if (splitData.Length >= 2)
+                            if (splitData.Length == 5)
                             {
+                                if (!ChecksumPassed(splitData[3], dataIn))
+                                {
+                                    Console.WriteLine("Checksum Error");
+                                    return;
+                                }
+
                                 Type type = this.GetType();
                                 MethodInfo method = type.GetMethod(splitData[1]);
+
 
                                 if (bHandshake)
                                 {
                                     if (method == null) //try indirect GetMethod
                                     {
-                                        Console.WriteLine(splitData[1] + " Trying indirect method, no fuction defined");
+                                        Console.WriteLine(splitData[1] + " Trying indirect method, no function defined");
                                         method = type.GetMethod("ProcessIndirectFunction");
                                     }
                                     if (method == null) { throw new Exception(); }
@@ -135,16 +141,16 @@ namespace Digital_Indicator.Logic.SerialCommunications
                         catch (Exception oe)
                         {
                             Console.WriteLine("Serial Error: " + oe.Message);
-                            
+
                         }
-                        
+
                         Thread.Sleep(10); //polling is faster than trying to use the serial ondata event ;(
                     }
                 }
             });
         }
 
-        
+
 
         private void RunSimulation()
         {
@@ -184,6 +190,62 @@ namespace Digital_Indicator.Logic.SerialCommunications
             return (Double)r / dPlaces;
         }
 
+        private bool ChecksumPassed(string checksum, string stringToCheck)
+        {
+            int tokenCount = 0;
+            int tokenPosition = 0;
+            string checksumString = string.Empty;
+            tokenCount = stringToCheck.Split(';').Length;
+
+            if (tokenCount == 5)
+            {
+
+                int tCount = 0;
+
+                for (int i = 0; i < stringToCheck.Length; ++i)
+                {
+                    if (tCount != 3)
+                    {
+                        checksumString += stringToCheck[i];
+                    }
+                    else
+                    {
+                        if (stringToCheck[i] == ';')
+                        {
+                            tCount++;
+                        }
+                    }
+                    if (stringToCheck[i] == ';' && tCount < 3)
+                    {
+                        tokenPosition = i;
+                        tCount++;
+                    }
+
+
+                }
+            }
+
+            checksumString = checksumString.Replace("\r", "").Replace("\0", "");
+
+            int checksumValue = GetCheckSum(checksumString);
+
+            Int16 sum = -1;
+            Int16.TryParse(checksum, out sum);
+
+            return checksumValue == sum;
+        }
+
+        private int GetCheckSum(string checksumString)
+        {
+            int checksumValue = 0;
+            for (int i = 0; i < checksumString.Length; ++i)
+            {
+                checksumValue = checksumValue ^ checksumString[i];
+            }
+
+            return checksumValue;
+        }
+
         public List<SerialPortClass> GetSerialPortList()
         {
             List<SerialPortClass> ListOfSerialPortClass = new List<SerialPortClass>();
@@ -221,10 +283,10 @@ namespace Digital_Indicator.Logic.SerialCommunications
                     string[] stringArray = serialString.ToString().Replace("\r", "").Split(';');
 
                     if (stringArray.Length >= 1)
-                    if (stringArray.Length >= 1)
-                    {
-                        return stringArray[1];
-                    }
+                        if (stringArray.Length >= 1)
+                        {
+                            return stringArray[1];
+                        }
                 }
             }
             catch
@@ -236,13 +298,18 @@ namespace Digital_Indicator.Logic.SerialCommunications
 
         public void SendSerialData(SerialCommand command)
         {
-            
+
             string serialCommand = command.AssembleCommand();
+
+            int checksum = GetCheckSum(serialCommand);
+
+            serialCommand += checksum.ToString();
+
             Console.WriteLine(serialCommand);
-            
+
             serialPort.WriteLine(serialCommand);
         }
-        
+
         public void Diameter(string[] splitData) //reflection calls this
         {
             double diameter = 0;
@@ -352,14 +419,14 @@ namespace Digital_Indicator.Logic.SerialCommunications
         {
             SerialCommand command = new SerialCommand();
 
-            
+
             if (splitData.Length >= 3)
             {
                 command.DeviceID = splitData[0];
                 command.Command = splitData[1];
                 command.Value = splitData[2].Replace("\0", string.Empty); //remove nulls
 
-               
+
 
 
                 GeneralDataChanged?.Invoke(command, null);

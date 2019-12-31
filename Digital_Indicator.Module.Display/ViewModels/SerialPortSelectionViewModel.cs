@@ -18,6 +18,8 @@ namespace Digital_Indicator.Module.Display.ViewModels
 
         public ObservableCollection<SerialPortClass> SerialPortList { get; }
 
+        public DelegateCommand<object> SelectedPort { get; }
+
         public DelegateCommand NextScreen { get; }
 
         private SerialPortClass serialPortSelection;
@@ -34,6 +36,8 @@ namespace Digital_Indicator.Module.Display.ViewModels
             SerialPortList = new ObservableCollection<SerialPortClass>(_serialService.GetSerialPortList());
 
             NextScreen = new DelegateCommand(NextScreen_Click);
+
+            SelectedPort = new DelegateCommand<object>(OnPortSelected);
         }
 
         private void SetSerialPort()
@@ -50,6 +54,24 @@ namespace Digital_Indicator.Module.Display.ViewModels
             SetSerialPort();
 
             _naviService.NavigateTo("DiameterView");
+        }
+
+        private void OnPortSelected(object obj)
+        {
+            SerialPortClass port = (SerialPortClass)obj;
+
+            if (port.SerialPort_FriendlyName != string.Empty && port.SerialPort_PortName != string.Empty)
+            {
+                _serialService.ConnectToSerialPort(port.SerialPort_PortName);
+
+                _naviService.NavigateTo("PleaseWaitView");
+
+                _serialService.SendSerialData(new SerialCommand() { Command = "GetFullUpdate", DeviceID = "100" });
+
+                _naviService.NavigateTo("DiameterView");
+
+            }
+
         }
     }
 }

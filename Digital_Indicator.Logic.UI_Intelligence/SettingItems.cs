@@ -60,23 +60,35 @@ namespace Digital_Indicator.Logic.UI_Intelligence
             Description.XmlParameterName = "Description";
             Description.ParameterType = "Production";
 
+            FilamentDiameter.HardwareType = "100";
             FilamentDiameter.ParameterName = "Filament Diameter";
             FilamentDiameter.IsXmLParameter = true;
             FilamentDiameter.XmlParameterName = "NominalDiameter";
             FilamentDiameter.Unit = "mm";
             FilamentDiameter.ParameterType = "Production";
+            FilamentDiameter.Value = "0.00";
+            FilamentDiameter.IsSerialCommand = true;
+            FilamentDiameter.SerialCommand = "NominalDiameter";
 
+            UpperLimit.HardwareType = "100";
             UpperLimit.ParameterName = "Upper Limit";
             UpperLimit.IsXmLParameter = true;
             UpperLimit.XmlParameterName = "UpperLimit";
             UpperLimit.Unit = "mm";
             UpperLimit.ParameterType = "Production";
+            UpperLimit.Value = "0.00";
+            UpperLimit.IsSerialCommand = true;
+            UpperLimit.SerialCommand = "UpperLimit";
 
+            LowerLimit.HardwareType = "100";
             LowerLimit.ParameterName = "Lower Limit";
             LowerLimit.IsXmLParameter = true;
             LowerLimit.XmlParameterName = "LowerLimit";
             LowerLimit.Unit = "mm";
             LowerLimit.ParameterType = "Production";
+            LowerLimit.Value = "0.00";
+            LowerLimit.IsSerialCommand = true;
+            LowerLimit.SerialCommand = "LowerLimit";
 
             SpoolNumber.ParameterName = "Spool Number";
             SpoolNumber.IsXmLParameter = true;
@@ -103,7 +115,7 @@ namespace Digital_Indicator.Logic.UI_Intelligence
 
             SpoolWeightLimit.HardwareType = "100";
             SpoolWeightLimit.ParameterName = "Spool Weight Limit";
-            SpoolWeightLimit.Value = 0;
+            SpoolWeightLimit.Value = "0";
             SpoolWeightLimit.ParameterType = "Production";
             SpoolWeightLimit.IsXmLParameter = true;
             SpoolWeightLimit.XmlParameterName = "SpoolWeightLimit";

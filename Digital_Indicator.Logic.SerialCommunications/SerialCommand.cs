@@ -34,11 +34,11 @@ namespace Digital_Indicator.Logic.SerialCommunications
             string assembledCommand = string.Empty;
             if (deviceID != string.Empty && command != string.Empty && value != string.Empty)
             {
-                return deviceID + ";" + command + ";" + this.value + ";\r\n";
+                return deviceID + ";" + command + ";" + this.value + ";";
             }
             if (deviceID != string.Empty && command != string.Empty)
             {
-                return deviceID + ";" + command + ";\r\n";
+                return deviceID + ";" + command + ";;";
             }
             else
             {

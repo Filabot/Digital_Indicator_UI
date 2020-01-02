@@ -106,6 +106,8 @@ namespace Digital_Indicator.Logic.Filament
             FilamentServiceVariables.Add("SpoolWeight", "");
             FilamentServiceVariables.Add("OutputRate", "");
             FilamentServiceVariables.Add("RemainingTime", "");
+            FilamentServiceVariables.Add("KeepAlive", "Disconnected");
+            FilamentServiceVariables.Add("DiameterError", "");
 
             BuildXmlData();
             SetupPlots();
@@ -193,75 +195,29 @@ namespace Digital_Indicator.Logic.Filament
 
         private void BuildXmlData()
         {
-
-            //FilamentServiceVariables["NominalDiameter"] = _xmlService.XmlSettings["filamentData.nominalDiameter"];
-            //FilamentServiceVariables["UpperLimit"] = _xmlService.XmlSettings["filamentData.upperLimit"];
-            //FilamentServiceVariables["LowerLimit"] = _xmlService.XmlSettings["filamentData.lowerLimit"];
-            //FilamentServiceVariables["SpoolNumber"] = _xmlService.XmlSettings["filamentData.spoolNumber"];
-            //FilamentServiceVariables["Description"] = _xmlService.XmlSettings["filamentData.materialDescription"];
-
-
-
-
             foreach (KeyValuePair<string, string> kvp in FilamentServiceVariables.ToList())
             {
-
-
                 if (!_xmlService.XmlSettings.ContainsKey("filamentData." + kvp.Key))
                 {
-                    _xmlService.XmlSettings.Add("filamentData." + kvp.Key.ToString(), string.Empty);
+                    _xmlService.XmlSettings.Add("filamentData." + kvp.Key.ToString(), kvp.Value.ToString());
                 }
-
-                //if (_xmlService.XmlSettings.ContainsKey("filamentData." + kvp.Key))
-                //{
-                //    _xmlService.XmlSettings.Add("filamentData." + kvp.Key.ToString(), string.Empty);
-                //}
-
+                
                 FilamentServiceVariables[kvp.Key] = _xmlService.XmlSettings["filamentData." + kvp.Key];
+                if (kvp.Key == "DiameterError")
+                    FilamentServiceVariables[kvp.Key] = "";
             }
             SaveXmlData();
-
-            //nominalDiameter = _xmlService.XmlSettings["filamentData.nominalDiameter"];
-            //upperLimit = _xmlService.XmlSettings["filamentData.upperLimit"];
-            //lowerLimit = _xmlService.XmlSettings["filamentData.lowerLimit"];
-            //spoolNumber = _xmlService.XmlSettings["filamentData.spoolNumber"];
-            //description = _xmlService.XmlSettings["filamentData.materialDescription"];
-
-
-            //SetFilamentVariables();
         }
 
         public void SaveXmlData()
         {
-            //_xmlService.XmlSettings["filamentData.nominalDiameter"] = FilamentServiceVariables["NominalDiameter"];
-            //_xmlService.XmlSettings["filamentData.upperLimit"] = FilamentServiceVariables["UpperLimit"];
-            //_xmlService.XmlSettings["filamentData.lowerLimit"] = FilamentServiceVariables["LowerLimit"];
-            //_xmlService.XmlSettings["filamentData.spoolNumber"] = FilamentServiceVariables["SpoolNumber"];
-            //_xmlService.XmlSettings["filamentData.materialDescription"] = FilamentServiceVariables["Description"];
-
             foreach (KeyValuePair<string, string> kvp in FilamentServiceVariables)
             {
                 _xmlService.XmlSettings["filamentData." + kvp.Key] = kvp.Value;
             }
             UpdatePlots();
 
-
-            //_xmlService.XmlSettings["filamentData.nominalDiameter"] = nominalDiameter;
-            //_xmlService.XmlSettings["filamentData.upperLimit"] = upperLimit;
-            //_xmlService.XmlSettings["filamentData.lowerLimit"] = lowerLimit;
-            //_xmlService.XmlSettings["filamentData.spoolNumber"] = spoolNumber;
-            //_xmlService.XmlSettings["filamentData.materialDescription"] = description;
-
-
             _xmlService.SaveSettings();
-        }
-
-        private void SetFilamentVariables()
-        {
-            //FilamentServiceVariables["UpperLimit"] = upperLimit.ToString();
-            //FilamentServiceVariables["LowerLimit"] = lowerLimit.ToString();
-            //FilamentServiceVariables["NominalDiameter"] = nominalDiameter.ToString();
-
         }
 
         private void SetupStopwatch()

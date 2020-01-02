@@ -1,5 +1,6 @@
 ﻿using Digital_Indicator.Logic.Navigation;
 using Digital_Indicator.Logic.SerialCommunications;
+using Digital_Indicator.Logic.UI_Intelligence;
 using Prism.Commands;
 using Prism.Mvvm;
 using System;
@@ -7,7 +8,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Threading;
 
 namespace Digital_Indicator.Module.Display.ViewModels
 {
@@ -15,8 +18,10 @@ namespace Digital_Indicator.Module.Display.ViewModels
     {
         private ISerialService _serialService;
         private INavigationService _naviService;
+        IUI_IntelligenceService _IntelligenceService;
 
         public ObservableCollection<SerialPortClass> SerialPortList { get; }
+        public ObservableCollection<SerialPortClass> AlternateList { get; }
 
         public DelegateCommand<object> SelectedPort { get; }
 
@@ -29,15 +34,41 @@ namespace Digital_Indicator.Module.Display.ViewModels
             set { serialPortSelection = value; }
         }
 
-        public SerialPortSelectionViewModel(ISerialService serialService, INavigationService naviService)
+        public SerialPortSelectionViewModel(ISerialService serialService, INavigationService naviService, IUI_IntelligenceService intelligenceService)
         {
             _serialService = serialService;
             _naviService = naviService;
+            _IntelligenceService = intelligenceService;
             SerialPortList = new ObservableCollection<SerialPortClass>(_serialService.GetSerialPortList());
 
-            NextScreen = new DelegateCommand(NextScreen_Click);
+            AlternateList = new ObservableCollection<SerialPortClass>(_serialService.GetAlternateList());
+
+            if (SerialPortList.Count > 0)
+                SerialPortSelection = (SerialPortList.FirstOrDefault(x => x.SerialPort_FriendlyName == "Filalogger"));
+            else
+                SerialPortList = AlternateList;
+
+
+            _naviService.NavigationCompleted += _naviService_NavigationCompleted;
+
+            //NextScreen = new DelegateCommand(NextScreen_Click);
 
             SelectedPort = new DelegateCommand<object>(OnPortSelected);
+
+
+        }
+
+        private void _naviService_NavigationCompleted(object sender, EventArgs e)
+        {
+
+            if (sender.ToString() == "SerialPortSelectionView")
+            {
+                if (serialPortSelection != null)
+                {
+                    OnPortSelected(SerialPortSelection);
+                }
+            }
+
         }
 
         private void SetSerialPort()
@@ -64,14 +95,31 @@ namespace Digital_Indicator.Module.Display.ViewModels
             {
                 _serialService.ConnectToSerialPort(port.SerialPort_PortName);
 
-                _naviService.NavigateTo("PleaseWaitView");
+                
+                    Dispatcher.CurrentDispatcher.Invoke((Action)(() =>
 
-                _serialService.SendSerialData(new SerialCommand() { Command = "GetFullUpdate", DeviceID = "100" });
+                 _naviService.NavigateTo("PleaseWaitView")));
+                if (_serialService.IsConnected)
+                {
 
-                _naviService.NavigateTo("DiameterView");
+                    //_naviService.NavigateTo("PleaseWaitView");
+
+                    _serialService.SendSerialData(new SerialCommand() { Command = "GetFullUpdate", DeviceID = "100" });
+
+
+                    Dispatcher.CurrentDispatcher.Invoke(() =>
+                   {
+                       _naviService.NavigateTo("DiameterView");
+                   });
+                }
+
+
+
 
             }
 
         }
+
+
     }
 }

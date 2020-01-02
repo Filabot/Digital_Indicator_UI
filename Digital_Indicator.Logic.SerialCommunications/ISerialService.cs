@@ -9,6 +9,7 @@ namespace Digital_Indicator.Logic.SerialCommunications
     public interface ISerialService
     {
         List<SerialPortClass> GetSerialPortList();
+        List<SerialPortClass> GetAlternateList();
 
         void ConnectToSerialPort(string portName);
 
@@ -19,6 +20,7 @@ namespace Digital_Indicator.Logic.SerialCommunications
 
         bool IsSimulationModeActive { get; set; }
         bool PortDataIsSet { get; }
+        bool IsConnected { get; }
 
         void SendSerialData(SerialCommand command);
     }

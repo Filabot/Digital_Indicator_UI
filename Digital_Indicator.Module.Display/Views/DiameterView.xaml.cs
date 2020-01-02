@@ -55,6 +55,7 @@ namespace Digital_Indicator.Module.Display.Views
             zedGraphRealTimeModel.Children.Add(new WindowsFormsHost() { Child = zgraphRealTime });
 
             settingsButton.Click += SettingButton_Click;
+            errorButton.Click += ErrorButton_Click;
 
             this.LayoutUpdated += DiameterView_LayoutUpdated;
             this.SizeChanged += DiameterView_SizeChanged;
@@ -122,6 +123,30 @@ namespace Digital_Indicator.Module.Display.Views
         }
 
         private void SettingButton_Click(object sender, RoutedEventArgs e)
+        {
+            Storyboard sb = new Storyboard();
+
+            DoubleAnimation doubleAnimationHistorical = new DoubleAnimation(zedGraphHistoricalModel.Width, this.ActualWidth - 320, new Duration(TimeSpan.FromMilliseconds(200)));
+            DoubleAnimation doubleAnimationRealTime = new DoubleAnimation(zedGraphRealTimeModel.Width, this.ActualWidth - 320, new Duration(TimeSpan.FromMilliseconds(200)));
+            CircleEase ease = new CircleEase() { EasingMode = EasingMode.EaseInOut };
+            doubleAnimationHistorical.EasingFunction = ease;
+            doubleAnimationRealTime.EasingFunction = ease;
+            sb.Children.Add(doubleAnimationHistorical);
+            sb.Children.Add(doubleAnimationRealTime);
+            Storyboard.SetTarget(doubleAnimationHistorical, zedGraphHistoricalModel);
+            Storyboard.SetTarget(doubleAnimationRealTime, zedGraphRealTimeModel);
+            Storyboard.SetTargetProperty(doubleAnimationHistorical, new PropertyPath("(Width)"));
+            Storyboard.SetTargetProperty(doubleAnimationRealTime, new PropertyPath("(Width)"));
+            zedGraphWidths = this.ActualWidth - 320;
+
+            sb.Completed += Storyboard_Completed;
+            plotStoryboard = sb;
+            sb.Begin();
+
+            settingsWindowOpen = true;
+        }
+
+        private void ErrorButton_Click(object sender, RoutedEventArgs e)
         {
             Storyboard sb = new Storyboard();
 

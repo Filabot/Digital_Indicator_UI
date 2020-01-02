@@ -12,6 +12,8 @@ using Prism.Commands;
 using Prism.Mvvm;
 using System.Reflection;
 using System.Threading;
+using System.Windows.Threading;
+using System.Windows;
 
 namespace Digital_Indicator.Logic.UI_Intelligence
 {
@@ -21,6 +23,8 @@ namespace Digital_Indicator.Logic.UI_Intelligence
         private ISerialService _serialService;
         private IFilamentService _filamentService;
         private SettingItems items;
+
+        private ObservableCollection<ViewModelBase> Errors;
 
         private Collection<ViewModelBase> Settings { get; set; }
 
@@ -32,6 +36,8 @@ namespace Digital_Indicator.Logic.UI_Intelligence
 
             items = new SettingItems();
             Settings = new Collection<ViewModelBase>();
+            Errors = new ObservableCollection<ViewModelBase>();
+
             //Settings = items.Settings; //new ObservableCollection<ViewModelBase>();
 
             _filamentService.PropertyChanged += _filamentService_PropertyChanged;
@@ -101,17 +107,29 @@ namespace Digital_Indicator.Logic.UI_Intelligence
                 }
             }
 
+            if (!Errors.Any(x => (string)x.Value == command.Value) && command.Command == "DiameterError") 
+            {
+                Application.Current.Dispatcher.Invoke((Action)(() =>
+              Errors.Add(new ErrorItemViewModel() { Value = command.Value })
+                ));
+
+
+              //  Dispatcher.CurrentDispatcher.Invoke((Action)(() =>
+              //Errors.Add(new ErrorItemViewModel() { Value = command.Value })
+              //  ));
+            }
+
 
         }
-
-        //public IReadOnlyCollection<ViewModelBase> GetSettings()
-        //{
-        //    return Settings;
-        //}
 
         public Dictionary<string, ObservableCollection<ViewModelBase>> GetSettings()
         {
             return items.Settings;
+        }
+
+        public ObservableCollection<ViewModelBase> GetErrors()
+        {
+            return Errors;
         }
 
         public void SaveSettings()

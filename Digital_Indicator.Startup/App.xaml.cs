@@ -17,9 +17,6 @@ namespace Digital_Indicator.Startup
         {
             SplashScreen splashScreen = new SplashScreen("FILABOT_LOGO_2017 splash1.png");
             splashScreen.Show(false, true);
-            
-            //splashScreen.Close(TimeSpan.FromMilliseconds(50000));
-
 
             base.OnStartup(e);
 

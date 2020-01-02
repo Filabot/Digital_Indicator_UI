@@ -18,6 +18,7 @@ namespace Digital_Indicator.Startup
     class Bootstrapper : UnityBootstrapper
     {
         string[] startArgs;
+        object _obj;
 
         public Bootstrapper(string[] args)
         {
@@ -65,7 +66,7 @@ namespace Digital_Indicator.Startup
 
             StartFilamentService();
             StartWebService();
-
+            //SetUpSerialService();
         }
 
         private void StartFilamentService()
@@ -90,11 +91,20 @@ namespace Digital_Indicator.Startup
 
         }
 
-        //protected override IRegionBehaviorFactory ConfigureDefaultRegionBehaviors()
-        //{
-        //var behaviors = base.ConfigureDefaultRegionBehaviors();
-        //behaviors.AddIfMissing(DependentViewRegionBehavior.BehaviorKey, typeof(DependentViewRegionBehavior));
-        //return behaviors;
-        //}
-    }
+        private void SetUpSerialService()
+        {
+            ISerialService serialService = Container.Resolve<ISerialService>();
+
+            
+        }
+
+
+
+            //protected override IRegionBehaviorFactory ConfigureDefaultRegionBehaviors()
+            //{
+            //var behaviors = base.ConfigureDefaultRegionBehaviors();
+            //behaviors.AddIfMissing(DependentViewRegionBehavior.BehaviorKey, typeof(DependentViewRegionBehavior));
+            //return behaviors;
+            //}
+        }
 }

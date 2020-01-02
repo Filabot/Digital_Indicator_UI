@@ -15,6 +15,7 @@ namespace Digital_Indicator.Logic.UI_Intelligence
 
         //IReadOnlyCollection<ViewModelBase> GetSettings();
         Dictionary<string, ObservableCollection<ViewModelBase>> GetSettings();
+        ObservableCollection<ViewModelBase> GetErrors();
 
 
         event EventHandler SettingsUpdated;

@@ -74,11 +74,15 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="ViewModels\DiameterViewModel.cs" />
+    <Compile Include="ViewModels\ErrorViewModel.cs" />
     <Compile Include="ViewModels\PleaseWaitViewModel.cs" />
     <Compile Include="ViewModels\SerialPortSelectionViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="Views\DiameterView.xaml.cs">
       <DependentUpon>DiameterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ErrorView.xaml.cs">
+      <DependentUpon>ErrorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\HighSpeedTextBlockBehavior.cs" />
     <Compile Include="Views\SerialPortSelectionView - Copy.xaml.cs">
@@ -145,6 +149,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Views\DiameterView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ErrorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

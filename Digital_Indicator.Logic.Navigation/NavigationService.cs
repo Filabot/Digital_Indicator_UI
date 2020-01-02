@@ -15,6 +15,7 @@ namespace Digital_Indicator.Logic.Navigation
         private readonly IRegionManager _regionManager;
 
         public event EventHandler RegionCleared;
+        public event EventHandler NavigationCompleted;
 
         public NavigationService(IUnityContainer container, IRegionManager regionManager)
         {
@@ -24,12 +25,19 @@ namespace Digital_Indicator.Logic.Navigation
 
         public void NavigateTo(string screenName)
         {
-            _regionManager.RequestNavigate("ContentRegion", screenName);
+            _regionManager.RequestNavigate("ContentRegion", screenName, NavigateCallback);
+
+            
+        }
+
+        private void NavigateCallback(NavigationResult obj)
+        {
+            NavigationCompleted?.Invoke(obj.Context.Uri.ToString(), null);
         }
 
         public void NavigateToRegion(string region, string screenName)
         {
-            _regionManager.RequestNavigate(region, screenName);
+            _regionManager.RequestNavigate(region, screenName, NavigateCallback);
 
         }
 
@@ -39,5 +47,7 @@ namespace Digital_Indicator.Logic.Navigation
 
             RegionCleared?.Invoke(region, null);
         }
+
+        
     }
 }

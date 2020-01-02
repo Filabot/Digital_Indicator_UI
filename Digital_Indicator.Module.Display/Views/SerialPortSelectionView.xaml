@@ -39,33 +39,21 @@
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <ComboBox x:Name="serialSelectionComboBox" Grid.Column="3" Grid.Row="4" FontSize="20" ItemsSource="{Binding SerialPortList}" SelectedValue="{Binding SerialPortSelection}" Margin="0,0,0,20" Grid.ColumnSpan="3" >
-            <ComboBox.ItemContainerStyle>
-                <Style TargetType="ComboBoxItem">
-                    <Setter Property="Height" Value="{Binding ActualHeight, ElementName=serialSelectionComboBox}" />
-                    <Setter Property="FontSize" Value="{Binding FontSize, ElementName=serialSelectionComboBox}" />
-                </Style>
-            </ComboBox.ItemContainerStyle>
-        </ComboBox>
-        <Label Content="Select Com Port" Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="3" FontSize="26" HorizontalContentAlignment="Center"/>
-        <Button Content="Next" Grid.Column="4" Grid.Row="7" Margin="0,0,0,20" Command="{Binding NextScreen}"/>
-        <ItemsControl  x:Name="itemsControl" Grid.Column="1" Margin="-12.081,-24.366,-13.378,-16.883" Grid.Row="1" Grid.ColumnSpan="7" Grid.RowSpan="2" ItemsSource="{Binding SerialPortList}">
+        <ItemsControl  x:Name="itemsControl" Grid.Column="1" Margin="-12.081,-24.366,-13.378,-16.883" Grid.Row="4" Grid.ColumnSpan="7" Grid.RowSpan="2" ItemsSource="{Binding SerialPortList}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate >
                     <ToggleButton IsChecked="False" Command="{Binding DataContext.SelectedPort, ElementName=itemsControl}" CommandParameter="{Binding}">
                         <StackPanel Orientation="Vertical"  Height="Auto" >
-                            <Grid Width="283" Height="100">
+                            <Grid Width="283" Height="100" x:Name="gridControl" >
                                 <Grid.RowDefinitions>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
                                     <RowDefinition/>
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Text="{Binding SerialPort_FriendlyName}" FontSize="18" Grid.Row="1" HorizontalAlignment="Center"  />
+                                <TextBlock Text="{Binding SerialPort_FriendlyName}" FontSize="18" Grid.Row="0" TextWrapping="WrapWithOverflow" TextAlignment="Center" VerticalAlignment="Center"  />
                             </Grid>
-                            
+
                             <!--<Image Source="{Binding ImageSource}" Width="283" Height="100"/>-->
                         </StackPanel>
                     </ToggleButton>
@@ -78,6 +66,9 @@
             </ItemsControl.ItemsPanel>
 
         </ItemsControl>
+        <Label Content="Select Com Port" Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="3" FontSize="26" HorizontalContentAlignment="Center"/>
+        
+        
 
     </Grid>
 </UserControl>

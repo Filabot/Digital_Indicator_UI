@@ -7,6 +7,7 @@ using Digital_Indicator.WindowForms.ZedGraphUserControl;
 using System.Windows.Media;
 using Digital_Indicator.Logic.Spooler;
 using System.ComponentModel;
+using Digital_Indicator.Logic.UI_Intelligence;
 
 namespace Digital_Indicator.Module.Display.ViewModels
 {
@@ -17,7 +18,9 @@ namespace Digital_Indicator.Module.Display.ViewModels
         public DelegateCommand StartCapture { get; private set; }
         public DelegateCommand StopCapture { get; private set; }
         public DelegateCommand Settings { get; private set; }
+        public DelegateCommand Errors { get; private set; }
         public ISpoolerService _spoolerService { get; }
+        private IUI_IntelligenceService _iui_IntelligenceService;
 
         private bool settingsOpen;
         public bool SettingsOpen
@@ -68,6 +71,11 @@ namespace Digital_Indicator.Module.Display.ViewModels
             get { return _filamentService.FilamentServiceVariables["Tolerance"]; }
         }
 
+        public string SpecificGravity
+        {
+            get { return _filamentService.FilamentServiceVariables["SpecificGravity"]; }
+        }
+
         public bool CaptureStarted
         {
             get { return _filamentService.CaptureStarted; }
@@ -108,6 +116,16 @@ namespace Digital_Indicator.Module.Display.ViewModels
             get { return _filamentService.FilamentServiceVariables["RemainingTime"]; }
         }
 
+        public string KeepAlive
+        {
+            get { return _filamentService.FilamentServiceVariables["KeepAlive"]; }
+        }
+
+        public bool HasErrors
+        {
+            get { return _iui_IntelligenceService.GetErrors().Count > 0; }
+        }
+
         public Brush HighestValueColor
         {
             get
@@ -143,6 +161,21 @@ namespace Digital_Indicator.Module.Display.ViewModels
             }
         }
 
+        public Brush USBStatusColor
+        {
+            get
+            {
+                Color color = Colors.Red;
+
+                if (_filamentService.FilamentServiceVariables["KeepAlive"] == "Connected")
+                    color = Colors.Lime;                
+
+                
+                SolidColorBrush brush = new SolidColorBrush(color);
+                return brush;
+            }
+        }
+
         private object settingsView;
         public object SettingsView
         {
@@ -150,10 +183,11 @@ namespace Digital_Indicator.Module.Display.ViewModels
             private set { settingsView = value; RaisePropertyChanged(); }
         }
 
-        public DiameterViewModel(IFilamentService filamentService, INavigationService navigationService, ISpoolerService spoolerService)
+        public DiameterViewModel(IFilamentService filamentService, INavigationService navigationService, ISpoolerService spoolerService, IUI_IntelligenceService iui_IntelligenceService)
         {
             _filamentService = filamentService;
             _spoolerService = spoolerService;
+            _iui_IntelligenceService = iui_IntelligenceService;
             
             _navigationService = navigationService;
             _navigationService.RegionCleared += _navigationService_RegionCleared;
@@ -165,6 +199,7 @@ namespace Digital_Indicator.Module.Display.ViewModels
             StartCapture = new DelegateCommand(StartCapture_Click);
             StopCapture = new DelegateCommand(StopCapture_Click);
             Settings = new DelegateCommand(Settings_Click);
+            Errors = new DelegateCommand(Errors_Click);
         }
 
         private void _filamentService_StopWatchedTimeChanged(object sender, EventArgs e)
@@ -187,6 +222,8 @@ namespace Digital_Indicator.Module.Display.ViewModels
 
             RaisePropertyChanged("HighestValueColor");
             RaisePropertyChanged("LowestValueColor");
+            RaisePropertyChanged("USBStatusColor");
+            RaisePropertyChanged("HasErrors");
         }
 
         private void ResetGraph_Click()
@@ -226,6 +263,16 @@ namespace Digital_Indicator.Module.Display.ViewModels
         {
             SettingsOpen = true;
             _navigationService.NavigateToRegion("SettingsRegion", "SettingsView");
+        }
+
+        private void Errors_Click()
+        {
+            SettingsOpen = true;
+            _navigationService.NavigateToRegion("SettingsRegion", "ErrorView");
+
+            //_filamentService.FilamentServiceVariables["DiameterError"] = string.Empty;
+            
+            //_navigationService.NavigateToRegion("SettingsRegion", "SettingsView");
         }
         private GradientStopCollection GetStartButtonGradient()
         {

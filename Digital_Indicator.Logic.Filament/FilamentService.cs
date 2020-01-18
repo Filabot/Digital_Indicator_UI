@@ -211,7 +211,7 @@ namespace Digital_Indicator.Logic.Filament
 
         public void SaveXmlData()
         {
-            foreach (KeyValuePair<string, string> kvp in FilamentServiceVariables)
+            foreach (KeyValuePair<string, string> kvp in FilamentServiceVariables.ToList())
             {
                 _xmlService.XmlSettings["filamentData." + kvp.Key] = kvp.Value;
             }

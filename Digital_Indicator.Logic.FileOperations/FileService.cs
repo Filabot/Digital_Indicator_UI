@@ -55,7 +55,7 @@ namespace Digital_Indicator.Logic.FileOperations
             }
             catch (Exception oe)
             {
-                if (oe.Message.ToLower().Contains("root element is missing."))
+                if (oe.HResult == -2146232000)
                 {
                     var doc = new XDocument(new XDeclaration("1.0", "", ""), new XElement("persistenceData"));
                     doc.Element("persistenceData").Add(new XElement("filamentData"));

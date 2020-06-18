@@ -87,14 +87,18 @@ namespace Digital_Indicator.WindowForms.ZedGraphUserControl
             if (AllowZoom)
             {
                 IsZoomed = true;
-                // The maximum number of point to displayed is based on the width of the graphpane, and the visible range of the X axis
-                filteredDiameter.SetBounds(sender.GraphPane.XAxis.Scale.Min, sender.GraphPane.XAxis.Scale.Max, (int)sender.GraphPane.Rect.Width);
 
-                ReZoomLineObjs();
+                if (filteredDiameter != null)
+                {
+                    // The maximum number of point to displayed is based on the width of the graphpane, and the visible range of the X axis
+                    filteredDiameter.SetBounds(sender.GraphPane.XAxis.Scale.Min, sender.GraphPane.XAxis.Scale.Max, (int)sender.GraphPane.Rect.Width);
 
-                // This refreshes the graph when the button is released after a panning operation
-                if (newState.Type == ZoomState.StateType.Pan)
-                    sender.Invalidate();
+                    ReZoomLineObjs();
+
+                    // This refreshes the graph when the button is released after a panning operation
+                    if (newState.Type == ZoomState.StateType.Pan)
+                        sender.Invalidate();
+                }
             }
         }
 

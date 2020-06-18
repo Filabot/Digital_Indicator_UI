@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO.Ports;
 using System.Linq;
 using System.Management;
@@ -8,6 +9,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Digital_Indicator.Logic.Helpers;
 
 namespace Digital_Indicator.Logic.SerialCommunications
@@ -78,6 +80,7 @@ namespace Digital_Indicator.Logic.SerialCommunications
 
             if (asciiConvertedBytes.Length == 52) //if data is valid
             {
+
                 byte[] bytes = new byte[asciiConvertedBytes.Length / 4];
 
                 for (int i = 0; i < 13; ++i) //split each 4 bit nibble into array
@@ -98,7 +101,7 @@ namespace Digital_Indicator.Logic.SerialCommunications
 
                     double diameter = 0;
 
-                    if (Double.TryParse(diameterStringBuilder, out diameter)) //if it can convert to double, do it
+                    if (Double.TryParse(diameterStringBuilder, NumberStyles.Float, CultureInfo.InvariantCulture, out diameter )) //if it can convert to double, do it
                     {
                         string formatString = "0.";
                         for (int i = 0; i < bytes[11]; i++) //format the string for number of decimal places
@@ -110,7 +113,10 @@ namespace Digital_Indicator.Logic.SerialCommunications
                     }
                     
                 }
-                catch { }
+                catch (Exception oe)
+                {
+                    MessageBox.Show(oe.Message);
+                }
             }
         }
 
